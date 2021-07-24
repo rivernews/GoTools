@@ -52,7 +52,7 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	}
 
 	// append request config and make request
-	req, fetchErr := http.NewRequest(option.Method, requestURL.String(), postDataBuffer)
+	req, _ := http.NewRequest(option.Method, requestURL.String(), postDataBuffer)
 	req.Header = headers
 	client := &http.Client{}
 	res, fetchErr := client.Do(req)
