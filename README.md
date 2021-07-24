@@ -21,12 +21,12 @@ Make HTTP request:
 
 ```golang
 Fetch(FetchOption{
-		URL: "https://example.com",
-		Method: "POST",
-		PostData: map[string]string{
-			"text": message
-		},
-	})
+    URL: "https://example.com",
+    Method: "POST",
+    PostData: map[string]string{
+        "text": message
+    },
+})
 ```
 
 Logger with emoji icons.
