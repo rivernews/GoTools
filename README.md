@@ -29,7 +29,7 @@ Fetch(FetchOption{
 })
 ```
 
-Logger with emoji icons.
+Logger with emoji icons:
 
 ```golang
 // Below prints `ℹ️ INFO: This is a info log`
