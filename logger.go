@@ -54,10 +54,12 @@ func Logger(logLevel string, stringList ...string) error {
 			logBuilder.WriteString(v)
 		}
 
-		log.Println(logBuilder.String())
 		if value == LogLevelTypes["ERROR"] {
 			SendSlackMessage(logBuilder.String())
+			log.Fatalf(logBuilder.String())
 			return errors.New(logBuilder.String())
+		} else {
+			log.Println(logBuilder.String())
 		}
 	}
 
