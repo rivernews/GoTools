@@ -8,11 +8,11 @@ import (
 // getEnvVarHelper - don't care about no value when getting env var.
 // Do not use this for credential, because we should always make sure credentials are available
 // to avoid comparing to empty string when auth
-func getEnvVarHelper(key string) string {
+func GetEnvVarHelper(key string) string {
 	return getEnvVarOrDefault(key, "")
 }
 func getBoolEnvVarHelper(key string) bool {
-	value := strings.TrimSpace(strings.ToLower(getEnvVarHelper(key)))
+	value := strings.TrimSpace(strings.ToLower(GetEnvVarHelper(key)))
 	if value == "true" || value == "yes" || value == "1" {
 		return true
 	}
