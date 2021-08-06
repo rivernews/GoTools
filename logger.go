@@ -1,8 +1,8 @@
 package GoTools
 
 import (
+	"os"
 	"log"
-	"errors"
 	"strings"
 )
 
@@ -57,7 +57,7 @@ func Logger(logLevel string, stringList ...string) error {
 		if value == LogLevelTypes["ERROR"] {
 			SendSlackMessage(logBuilder.String())
 			log.Fatalf(logBuilder.String())
-			return errors.New(logBuilder.String())
+			os.Exit(1)
 		} else {
 			log.Println(logBuilder.String())
 		}
