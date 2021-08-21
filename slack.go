@@ -1,4 +1,4 @@
-package main
+package GoTools
 
 func GetSlackWebhookURL() string {
 	url := getEnvVarOrDefault("SLACK_WEBHOOK_URL", "")

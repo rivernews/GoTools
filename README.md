@@ -38,6 +38,18 @@ Logger("INFO", "This", "is", "a", "info log")
 // For Logger("ERROR", ...) it will also send a slack message to you
 ```
 
+## How to test
+
+1. Create file with name convention `<...>_test.go`
+1. Import `"testing"`, then writing the function as `func TestFetch(t *testing.T) ...`
+1. Run:
+
+```sh
+go test
+```
+
+*Do not change package name to `main` and run `go run fetch_test.go`, use `go test` instead*.
+
 ## How to publish
 
 ```sh
