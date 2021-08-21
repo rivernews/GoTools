@@ -37,3 +37,11 @@ Logger("INFO", "This", "is", "a", "info log")
 
 // For Logger("ERROR", ...) it will also send a slack message to you
 ```
+
+## How to publish
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+GOPROXY=proxy.golang.org go list -m github.com/rivernews/GoTools@v0.1.0
+```
