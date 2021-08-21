@@ -57,7 +57,7 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	client := &http.Client{}
 	res, fetchErr := client.Do(req)
 
-	Logger("WARN", "Fetch error:" + fetchErr.Error())
+	SimpleLogger("WARN", "Fetch error:" + fetchErr.Error())
 
 	var bytesContent []byte
 	if fetchErr == nil {
