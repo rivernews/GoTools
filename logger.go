@@ -1,4 +1,4 @@
-package GoTools
+package main
 
 import (
 	"os"

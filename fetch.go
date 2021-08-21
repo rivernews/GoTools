@@ -1,4 +1,4 @@
-package GoTools
+package main
 
 import (
 	"bytes"
@@ -57,11 +57,11 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	client := &http.Client{}
 	res, fetchErr := client.Do(req)
 
-	SimpleLogger("WARN", "Fetch error:" + fetchErr.Error())
-
 	var bytesContent []byte
 	if fetchErr == nil {
 		bytesContent, _ = ioutil.ReadAll(res.Body)
+	} else {
+		SimpleLogger("WARN", "Fetch error:" + fetchErr.Error())
 	}
 
 	// log response
