@@ -57,8 +57,9 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	client := &http.Client{}
 	res, fetchErr := client.Do(req)
 
+	var bytesContent []byte
 	if fetchErr == nil {
-		bytesContent, _ := ioutil.ReadAll(res.Body)
+		bytesContent, _ = ioutil.ReadAll(res.Body)
 	}
 
 	// log response
