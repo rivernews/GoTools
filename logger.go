@@ -33,7 +33,20 @@ func GetLogLevelValue() int {
 	return value
 }
 
-func Logger(logLevel string, stringList ...string) error {
+func Logger(logLevel string, stringList ...string) {
+	// Do not call this Logger in a functino that `SendSlackMessage` uses
+
+	logBuilder := SimpleLogger(logLevel, stringList...)
+
+	value, exist := LogLevelTypes[logLevel]
+	if exist && GetLogLevelValue() >= value && value != LogLevelTypes["DEBUG"] {
+		SendSlackMessage(logBuilder.String())
+	}
+}
+
+func SimpleLogger(logLevel string, stringList ...string) strings.Builder {
+	var logBuilder strings.Builder
+
 	value, exist := LogLevelTypes[logLevel]
 	if exist && GetLogLevelValue() >= value {
 		var prefix string
@@ -48,14 +61,9 @@ func Logger(logLevel string, stringList ...string) error {
 			prefix = "🛑 ERROR: "
 		}
 
-		var logBuilder strings.Builder
 		logBuilder.WriteString(prefix)
 		for _, v := range stringList {
 			logBuilder.WriteString(v)
-		}
-
-		if value != LogLevelTypes["DEBUG"] {
-			SendSlackMessage(logBuilder.String())
 		}
 
 		if value == LogLevelTypes["ERROR"] {
@@ -66,5 +74,5 @@ func Logger(logLevel string, stringList ...string) error {
 		}
 	}
 
-	return nil
+	return logBuilder
 }
