@@ -59,6 +59,7 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 
 	var bytesContent []byte
 	if fetchErr == nil {
+		defer res.Body.Close()
 		bytesContent, _ = ioutil.ReadAll(res.Body)
 	} else {
 		SimpleLogger("WARN", "Fetch error:" + fetchErr.Error())

@@ -38,10 +38,15 @@ func Logger(logLevel string, stringList ...string) {
 
 	logBuilder := SimpleLogger(logLevel, stringList...)
 
-	value, exist := LogLevelTypes[logLevel]
-	if exist && GetLogLevelValue() >= value && value != LogLevelTypes["DEBUG"] {
-		SendSlackMessage(logBuilder.String())
-	}
+	// value, exist := LogLevelTypes[logLevel]
+
+	// // slack if it's included in configured log level
+	// // but exclude debug log
+	// if exist && GetLogLevelValue() >= value && value != LogLevelTypes["DEBUG"] {
+	// 	SendSlackMessage(logBuilder.String())
+	// }
+
+	SendSlackMessage(logBuilder.String())
 }
 
 func SimpleLogger(logLevel string, stringList ...string) strings.Builder {
