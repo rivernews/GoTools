@@ -38,13 +38,11 @@ func Logger(logLevel string, stringList ...string) {
 
 	logLevelValue, logBuilder := gatherLogBuilder(logLevel, stringList...)
 
-	// TODO
 	// slack if it's included in configured log level
 	// but exclude debug log
-	// if exist && GetLogLevelValue() >= value && value != LogLevelTypes["DEBUG"] {
-	// 	SendSlackMessage(logBuilder.String())
-	// }
-	SendSlackMessage(logBuilder.String())
+	if GetLogLevelValue() >= logLevelValue && logLevelValue != LogLevelTypes["DEBUG"] {
+		SendSlackMessage(logBuilder.String())
+	}
 
 	BaseLogger(logLevelValue, logBuilder)
 }

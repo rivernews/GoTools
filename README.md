@@ -53,7 +53,7 @@ go test
 ## How to publish
 
 ```sh
-VERSION=v0.1.7
+VERSION=v0.1.8
 git tag ${VERSION}
 git push origin ${VERSION}
 GOPROXY=proxy.golang.org go list -m github.com/rivernews/GoTools@${VERSION}
