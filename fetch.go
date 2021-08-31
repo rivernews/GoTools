@@ -57,6 +57,10 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	client := &http.Client{}
 	res, fetchErr := client.Do(req)
 
+	// No need to do `defer res.Body.Close()`
+	// it's handled by client.Do already
+	// https://stackoverflow.com/a/68851335/9814131
+
 	var bytesContent []byte
 	if fetchErr == nil {
 		defer res.Body.Close()

@@ -34,22 +34,22 @@ func GetLogLevelValue() int {
 }
 
 func Logger(logLevel string, stringList ...string) {
-	// Do not call this Logger in a functino that `SendSlackMessage` uses
+	// Do not call this Logger in a function that `SendSlackMessage` uses
 
-	logBuilder := SimpleLogger(logLevel, stringList...)
+	logLevelValue, logBuilder := gatherLogBuilder(logLevel, stringList...)
 
-	// value, exist := LogLevelTypes[logLevel]
-
-	// // slack if it's included in configured log level
-	// // but exclude debug log
+	// TODO
+	// slack if it's included in configured log level
+	// but exclude debug log
 	// if exist && GetLogLevelValue() >= value && value != LogLevelTypes["DEBUG"] {
 	// 	SendSlackMessage(logBuilder.String())
 	// }
-
 	SendSlackMessage(logBuilder.String())
+
+	BaseLogger(logLevelValue, logBuilder)
 }
 
-func SimpleLogger(logLevel string, stringList ...string) strings.Builder {
+func gatherLogBuilder(logLevel string, stringList ...string) (int, strings.Builder) {
 	var logBuilder strings.Builder
 
 	value, exist := LogLevelTypes[logLevel]
@@ -70,14 +70,22 @@ func SimpleLogger(logLevel string, stringList ...string) strings.Builder {
 		for _, v := range stringList {
 			logBuilder.WriteString(v)
 		}
-
-		if value == LogLevelTypes["ERROR"] {
-			log.Fatalf(logBuilder.String())
-			os.Exit(1)
-		} else {
-			log.Println(logBuilder.String())
-		}
 	}
 
-	return logBuilder
+	return value, logBuilder
+}
+
+func SimpleLogger(logLevel string, stringList ...string) {
+	logLevelValue, logBuilder := gatherLogBuilder(logLevel, stringList...)
+
+	BaseLogger(logLevelValue, logBuilder)
+}
+
+func BaseLogger(logLevelValue int, logBuilder strings.Builder) {
+	if logLevelValue == LogLevelTypes["ERROR"] {
+		log.Fatalf(logBuilder.String())
+		os.Exit(1)
+	} else {
+		log.Println(logBuilder.String())
+	}
 }
