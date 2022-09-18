@@ -45,7 +45,7 @@ Logger("INFO", "This", "is", "a", "info log")
 1. Run:
 
 ```sh
-go test
+DEBUG=true go test
 ```
 
 *Do not change package name to `main` and run `go run fetch_test.go`, use `go test` instead*.
