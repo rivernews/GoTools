@@ -1,31 +1,41 @@
 package GoTools
 
 import (
-	"os"
 	"log"
+	"os"
 	"strings"
 )
 
 var LogLevelTypes = map[string]int{
-	"DEBUG": 4,
-	"INFO":  3,
-	"WARN":  2,
-	"ERROR": 1,
+	"VERBOSE": 5,
+	"DEBUG":   4,
+	"INFO":    3,
+	"WARN":    2,
+	"ERROR":   1,
 }
 
 var Debug = getBoolEnvVarHelper("DEBUG")
 
 func GetLogLevel() (int, string) {
+	var logLevelString = getEnvVarOrDefault("LOG_LEVEL", "INFO")
+	logLevel, exist := LogLevelTypes[logLevelString]
+	if !exist {
+		logLevelString = "INFO" // if `LOG_LEVEL` is supplied in env var but is malformatted
+		logLevel = LogLevelTypes[logLevelString]
+	}
+
+	debugLogLevel := LogLevelTypes["ERROR"]
+	debugLogLevelString := "ERROR"
 	if Debug {
-		return LogLevelTypes["DEBUG"], "DEBUG"
+		debugLogLevel = LogLevelTypes["DEBUG"]
+		debugLogLevelString = "DEBUG"
 	}
 
-	var logLevel = getEnvVarOrDefault("LOG_LEVEL", "INFO")
-	if value, exist := LogLevelTypes[logLevel]; exist {
-		return value, logLevel
+	if logLevel >= debugLogLevel {
+		return logLevel, logLevelString
 	}
 
-	return LogLevelTypes["INFO"], "INFO"
+	return debugLogLevel, debugLogLevelString
 }
 
 func GetLogLevelValue() int {
@@ -56,7 +66,9 @@ func SimpleLogger(logLevel string, stringList ...string) strings.Builder {
 	if exist && GetLogLevelValue() >= value {
 		var prefix string
 
-		if value == LogLevelTypes["DEBUG"] {
+		if value == LogLevelTypes["VERBOSE"] {
+			prefix = "💬 VERBOSE: "
+		} else if value == LogLevelTypes["DEBUG"] {
 			prefix = "🐛 DEBUG: "
 		} else if value == LogLevelTypes["INFO"] {
 			prefix = "ℹ️ INFO: "
