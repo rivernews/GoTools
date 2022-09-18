@@ -45,6 +45,7 @@ Logger("INFO", "This", "is", "a", "info log")
 1. Run:
 
 ```sh
+export SLACK_WEBHOOK_URL=...
 DEBUG=true go test
 ```
 

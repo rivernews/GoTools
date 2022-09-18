@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -27,7 +28,7 @@ func logRequest(req *http.Request) {
 	if err != nil {
 		SimpleLogger("ERROR", err.Error())
 	}
-	SimpleLogger("DEBUG", fmt.Sprintf("REQUEST:\n%s", string(reqDump)))
+	SimpleLogger("DEBUG", fmt.Sprintf("REQUEST:\n%s\nREQUEST END", bytes.TrimSpace(reqDump)))
 }
 
 func logResponse(res *http.Response) {
@@ -35,7 +36,7 @@ func logResponse(res *http.Response) {
 	if err != nil {
 		SimpleLogger("ERROR", err.Error())
 	}
-	SimpleLogger("DEBUG", fmt.Sprintf("RESPONSE:\n%s", string(resDump)))
+	SimpleLogger("DEBUG", fmt.Sprintf("RESPONSE:\n%s\nRESPONSE END", bytes.TrimSpace(resDump)))
 }
 
 // Fetch - convenient method to make request with querystring and post data
@@ -52,13 +53,11 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	requestURL.RawQuery = params.Encode()
 
 	// prepare post data
-	var postDataBuffer *bytes.Buffer
+	var postData io.Reader
 	if option.PostData != nil {
-		postDataBuffer = new(bytes.Buffer)
-		postDataMap := option.PostData
-		json.NewEncoder(postDataBuffer).Encode(postDataMap)
+		postData = bytes.NewReader(AsJsonBytes(option.PostData))
 	} else {
-		postDataBuffer = nil
+		postData = nil
 	}
 
 	// prepare headers
@@ -70,7 +69,7 @@ func Fetch(option FetchOption) ([]byte, string, error) {
 	}
 
 	// append request config and make request
-	req, _ := http.NewRequest(option.Method, option.URL, nil)
+	req, _ := http.NewRequest(option.Method, option.URL, postData)
 	req.Header = headers
 	if req.Header.Get("User-Agent") == "" {
 		req.Header.Set("User-Agent", `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.27 Safari/537.36`)
