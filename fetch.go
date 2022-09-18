@@ -28,7 +28,7 @@ func logRequest(req *http.Request) {
 	if err != nil {
 		SimpleLogger("ERROR", err.Error())
 	}
-	SimpleLogger("DEBUG", fmt.Sprintf("REQUEST:\n%s\nREQUEST END", bytes.TrimSpace(reqDump)))
+	SimpleLogger("VERBOSE", fmt.Sprintf("REQUEST:\n%s\nREQUEST END", bytes.TrimSpace(reqDump)))
 }
 
 func logResponse(res *http.Response) {
@@ -36,7 +36,7 @@ func logResponse(res *http.Response) {
 	if err != nil {
 		SimpleLogger("ERROR", err.Error())
 	}
-	SimpleLogger("DEBUG", fmt.Sprintf("RESPONSE:\n%s\nRESPONSE END", bytes.TrimSpace(resDump)))
+	SimpleLogger("VERBOSE", fmt.Sprintf("RESPONSE:\n%s\nRESPONSE END", bytes.TrimSpace(resDump)))
 }
 
 // Fetch - convenient method to make request with querystring and post data
