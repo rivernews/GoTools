@@ -54,6 +54,8 @@ DEBUG=true go test
 ## How to publish
 
 ```sh
+// commit and push to main first
+
 VERSION=v0.1.6
 git tag ${VERSION}
 git push origin ${VERSION}
